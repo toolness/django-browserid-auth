@@ -20,7 +20,7 @@ function login() {
 }
 </script>
 <p onclick="login()">click me to login</p>
-<form action="verify_login" method="post" id="verify_login">
+<form action="{% url browserid_auth.views.verify_login %}" method="post" id="verify_login">
   <input type="hidden" name="email" id="email">
   <input type="hidden" name="assertion" id="assertion">
   {% csrf_token %}

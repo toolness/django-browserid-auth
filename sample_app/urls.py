@@ -5,9 +5,10 @@ from django.conf.urls.defaults import patterns, include, url
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^login$', 'browserid_auth.views.login_form'),
-    url(r'^verify_login$', 'browserid_auth.views.verify_login'),
-    url(r'^$', 'sample_app.views.home'),
+    url(r'^accounts/logout/$', 'browserid_auth.views.logout_view'),
+    url(r'^accounts/login/$', 'browserid_auth.views.login_form'),
+    url(r'^accounts/verify_login/$', 'browserid_auth.views.verify_login'),
+    url(r'^accounts/profile/$', 'sample_app.views.home'),
     # Examples:
     # url(r'^$', 'sample_app.views.home', name='home'),
     # url(r'^sample_app/', include('sample_app.foo.urls')),
