@@ -19,7 +19,9 @@ def login_form(request):
 def verify_login(request):
     if request.method == 'POST':
         user = authenticate(email=request.POST['email'],
-                            assertion=request.POST['assertion'])
+                            assertion=request.POST['assertion'],
+                            host=request.META['SERVER_NAME'],
+                            port=request.META['SERVER_PORT'])
         if user is not None:
             if user.is_active:
                 login(request, user)

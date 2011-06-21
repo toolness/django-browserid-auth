@@ -11,10 +11,9 @@ class BrowserIdBackend(object):
     supports_object_permissions = False
     supports_anonymous_user = False
 
-    def authenticate(self, assertion=None, email=None):
-        # TODO: 'localhost:8000' should be replaced with a setting.
+    def authenticate(self, assertion=None, email=None, host=None, port=None):
         qs = urllib.urlencode({'assertion': assertion,
-                               'audience': 'localhost:8000'})
+                               'audience': '%s:%s' % (host, port)})
         response = urllib2.urlopen('%s?%s' % (VERIFICATION_SERVER, qs))
         result = json.loads(response.read())
         if result['status'] == 'okay':
