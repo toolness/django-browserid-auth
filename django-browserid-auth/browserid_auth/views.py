@@ -28,8 +28,7 @@ def login_form(request):
 
 @require_POST
 def verify_login(request):
-    user = authenticate(email=request.POST['email'],
-                        assertion=request.POST['assertion'],
+    user = authenticate(assertion=request.POST['assertion'],
                         host=request.META['SERVER_NAME'],
                         port=request.META['SERVER_PORT'])
     if user is not None:

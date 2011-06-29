@@ -10,7 +10,6 @@ function login() {
     }
 
     if (assertion) {
-      $("email").value = assertion.email;
       $("assertion").value = assertion.toString();
       $("verify_login").submit();
     } else {
@@ -21,7 +20,6 @@ function login() {
 </script>
 <p onclick="login()">click me to login</p>
 <form action="{% url browserid_auth.views.verify_login %}" method="post" id="verify_login">
-  <input type="hidden" name="email" id="email">
   <input type="hidden" name="assertion" id="assertion">
   {% csrf_token %}
 </form>

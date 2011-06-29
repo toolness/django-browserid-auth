@@ -1,5 +1,6 @@
 import urllib
 import urllib2
+import logging
 
 from django.contrib.auth.models import User
 from django.utils import simplejson as json
@@ -11,7 +12,7 @@ class BrowserIdBackend(object):
     supports_object_permissions = False
     supports_anonymous_user = False
 
-    def authenticate(self, assertion=None, email=None, host=None, port=None):
+    def authenticate(self, assertion=None, host=None, port=None):
         qs = urllib.urlencode({'assertion': assertion,
                                'audience': '%s:%s' % (host, port)})
 
@@ -23,12 +24,14 @@ class BrowserIdBackend(object):
         response = urllib2.urlopen('%s?%s' % (VERIFICATION_SERVER, qs))
         result = json.loads(response.read())
         if result['status'] == 'okay':
+            email = result['email']
             try:
                 user = User.objects.get(username=email)
             except User.DoesNotExist:
                 user = User(username=email, password='nonexistent')
                 user.save()
             return user
+        logging.error("user login failed: %s" % repr(result))
         return None
 
     def get_user(self, user_id):
