@@ -14,6 +14,12 @@ class BrowserIdBackend(object):
     def authenticate(self, assertion=None, email=None, host=None, port=None):
         qs = urllib.urlencode({'assertion': assertion,
                                'audience': '%s:%s' % (host, port)})
+
+        # TODO: this won't verify the server cert, because Python is
+        # odd. For more info, see: 
+        #
+        #   https://github.com/mozilla/browserid/issues/40
+
         response = urllib2.urlopen('%s?%s' % (VERIFICATION_SERVER, qs))
         result = json.loads(response.read())
         if result['status'] == 'okay':
